@@ -40,6 +40,9 @@ class BasicAuth(Auth):
             self,
             decoded_base64_authorization_header: str
             ) -> (str, str):  # type: ignore
+        """
+        This is the method extract_user_credentials
+        """
         if not decoded_base64_authorization_header or\
             type(decoded_base64_authorization_header) != str or\
                 len(decoded_base64_authorization_header.split(":")) == 1:
