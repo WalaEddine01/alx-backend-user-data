@@ -19,15 +19,22 @@ if os.getenv("AUTH_TYPE") == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.before_request
 def before_request():
     """ Before request
     """
-    if auth and auth.require_auth(request.path, ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']):
+    if auth and auth.require_auth(request.path,
+                                  [
+                                      '/api/v1/status/',
+                                      '/api/v1/unauthorized/',
+                                      '/api/v1/forbidden/'
+                                      ]):
         if not auth.authorization_header(request):
             abort(401)
         if not auth.current_user(request):
             abort(403)
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
