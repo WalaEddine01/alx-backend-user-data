@@ -58,5 +58,6 @@ class BasicAuth(Auth):
             user_email: str,
             user_pwd: str) -> TypeVar('User'):  # type: ignore
         """
+        This is the user_object_from_credentials method
         """
         pass
