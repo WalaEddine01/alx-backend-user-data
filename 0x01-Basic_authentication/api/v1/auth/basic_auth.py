@@ -72,3 +72,9 @@ class BasicAuth(Auth):
         if not user[0].is_valid_password(user_pwd):
             return None
         return user[0]
+    
+    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
+        """
+        This is the current_user method
+        """
+        pass
