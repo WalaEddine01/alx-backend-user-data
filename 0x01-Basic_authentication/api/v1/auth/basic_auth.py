@@ -60,4 +60,17 @@ class BasicAuth(Auth):
         """
         This is the user_object_from_credentials method
         """
-        pass
+        if not user_email or type(user_email) != str or\
+                not user_pwd or type(user_pwd) != str:
+            return None
+        if User.all() is None:
+            return None
+        try:
+            user = User.search({"email": user_email})
+        except Exception:
+            return None
+        if not user:
+            return None
+        if not user[0].is_valid_password(user_pwd):
+            return None
+        return user[0]
