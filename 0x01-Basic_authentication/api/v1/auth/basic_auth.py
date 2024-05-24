@@ -45,4 +45,17 @@ class BasicAuth(Auth):
         """
         This is the method extract_user_credentials
         """
-        pass
+        if not decoded_base64_authorization_header or\
+            type(decoded_base64_authorization_header) != str or\
+                len(decoded_base64_authorization_header.split(":")) == 1:
+            return None, None
+        user_data = decoded_base64_authorization_header.split(':')
+        return user_data[0], user_data[1]
+
+    def user_object_from_credentials(
+            self,
+            user_email: str,
+            user_pwd: str
+            ) -> TypeVar('User'):  # type: ignore
+        """ This is the user_object_from_credentials method
+        """
