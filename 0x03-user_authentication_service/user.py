@@ -3,10 +3,15 @@
 User model
 """
 from sqlalchemy import (
-    Integer, String, Nullable, Column)
+    Integer, String, Column
+    )
+from sqlalchemy.ext.declarative import declarative_base
+Base = declarative_base()
 
-class User:
+
+class User(Base):
     """
+    The User Class
     """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, nullable=False)
@@ -14,4 +19,3 @@ class User:
     hashed_password = Column(String(200), nullable=False)
     session_id = Column(String(200), nullable=True)
     reset_token = Column(String(200), nullable=True)
-    
