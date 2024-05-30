@@ -54,5 +54,4 @@ class DB:
         for obj in session.query(User):
             if obj.email == email:
                 return obj
-            else:
-                raise NoResultFound("Not found")
+            raise NoResultFound("Not found")
