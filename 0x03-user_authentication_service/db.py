@@ -48,7 +48,7 @@ class DB:
         """
         session = self._session
         for key, value in kwargs.items():
-            if not hasattr(User, key):
+            if key not in User.__dict__:
                 raise InvalidRequestError
             for obj in session.query(User):
                 if getattr(obj, key) == value:
