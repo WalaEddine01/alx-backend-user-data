@@ -49,19 +49,25 @@ class DB:
         session = self._session
         for key, value in kwargs.items():
             if key not in User.__dict__:
-                raise InvalidRequestError("Invalid")
+                raise InvalidRequestError
             for obj in session.query(User):
                 if obj.email == value:
                     return obj
                 else:
-                    raise NoResultFound("Not found")
+                    raise NoResultFound
 
     def update_user(self, *args, **kwargs) -> None:
         """
         """
         session = self._session
-        for key in kwargs.keys():
-            if key not in User.__dict__:
+        try:
+            user = self.find_user_by(args)
+        except NoResultFound:
+            raise ValueError
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+            else:
                 raise ValueError
-        user = self.find_user_by(kwargs)
-        setattr(user)
+        self._session.commit()
+
