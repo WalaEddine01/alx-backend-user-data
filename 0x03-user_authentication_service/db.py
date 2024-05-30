@@ -74,4 +74,3 @@ class DB:
                 print(hasattr(user, key), user, key)
                 raise ValueError
         self._session.commit()
-
