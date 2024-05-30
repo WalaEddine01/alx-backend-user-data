@@ -71,5 +71,5 @@ class DB:
             if hasattr(user, key):
                 setattr(user, key, value)
             else:
-                raise ValueError
+                raise ValueError()
         session.commit()
