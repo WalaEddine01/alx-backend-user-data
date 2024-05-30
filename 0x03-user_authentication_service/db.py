@@ -53,8 +53,7 @@ class DB:
             for obj in session.query(User):
                 if getattr(obj, key) == value:
                     return obj
-                else:
-                    raise NoResultFound
+        raise NoResultFound
 
     def update_user(self, *args, **kwargs) -> None:
         """
