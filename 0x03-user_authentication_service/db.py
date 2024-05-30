@@ -4,7 +4,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
 
 
@@ -38,19 +39,20 @@ class DB:
         session.add(user)
         session.commit()
         return user
-    
+
     def find_user_by(self, *args, **kwargs) -> User:
         """
-        This method takes in arbitrary keyword arguments and returns the first row
-        found in the users table as filtered by the method's input arguments
+        This method takes in arbitrary keyword arguments and returns
+        the first row found in the users table as filtered by the method's
+        input arguments
         """
-        for key, value in kwargs.items():
-            if key in User.__dict__:
-                session = self._session
-                if session.get(key, value):
-                    return session.get(key, value)
-                else:
-                    print("Not found")
+        session = self._session
+        try:
+            email = kwargs['email']
+        except Exception:
+            raise InvalidRequestError("Invalid")
+        for obj in session.query(User):
+            if obj.email == email:
+                return obj
             else:
-                print('Invalid')
-
+                raise NoResultFound("Not found")
