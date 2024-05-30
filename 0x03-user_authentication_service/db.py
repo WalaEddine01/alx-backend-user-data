@@ -58,6 +58,9 @@ class DB:
 
     def update_user(self, *args, **kwargs) -> None:
         """
+        locate the user to update, then will update the user’s
+        attributes as passed in the method’s arguments then commit
+        changes to the database
         """
         session = self._session
         try:
