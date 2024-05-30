@@ -48,10 +48,10 @@ class DB:
         """
         session = self._session
         for key, value in kwargs.items():
-            if key not in User.__dict__:
+            if not hasattr(User, key):
                 raise InvalidRequestError
             for obj in session.query(User):
-                if obj.email == value:
+                if getattr(obj, key) == value:
                     return obj
                 else:
                     raise NoResultFound
@@ -64,13 +64,14 @@ class DB:
         """
         session = self._session
         try:
-            user = self.find_user_by(args)
+            user = self.find_user_by(id=args)
         except NoResultFound:
             raise ValueError
         for key, value in kwargs.items():
             if hasattr(user, key):
                 setattr(user, key, value)
             else:
+                print(hasattr(user, key), user, key)
                 raise ValueError
         self._session.commit()
 
