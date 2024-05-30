@@ -40,36 +40,29 @@ class DB:
         session.commit()
         return user
 
-    def find_user_by(self, *args, **kwargs) -> User:
-        """
-        This method takes in arbitrary keyword arguments and returns
-        the first row found in the users table as filtered by the method's
-        input arguments
-        """
-        session = self._session
-        for key, value in kwargs.items():
-            if not hasattr(User, key):
+    def find_user_by(self, **kwargs) -> User:
+        '''
+        '''
+        all_users = self._session.query(User)
+        for k, v in kwargs.items():
+            if k not in User.__dict__:
                 raise InvalidRequestError
-            for obj in session.query(User):
-                if getattr(obj, key) == value:
-                    return obj
-                else:
-                    raise NoResultFound
+            for usr in all_users:
+                if getattr(usr, k) == v:
+                    return usr
+        raise NoResultFound
 
-    def update_user(self, *args, **kwargs) -> None:
-        """
-        locate the user to update, then will update the user’s
-        attributes as passed in the method’s arguments then commit
-        changes to the database
-        """
-        session = self._session
+    def update_user(self, user_id: int, **kwargs) -> None:
+        '''
+        '''
         try:
-            user = self.find_user_by(id=args[0])
+            user = self.find_user_by(id=user_id)
         except NoResultFound:
-            raise ValueError
+            raise ValueError()
+
         for key, value in kwargs.items():
             if hasattr(user, key):
                 setattr(user, key, value)
             else:
                 raise ValueError
-        session.commit()
+        self._session.commit()
