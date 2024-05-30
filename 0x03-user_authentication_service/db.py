@@ -47,11 +47,21 @@ class DB:
         input arguments
         """
         session = self._session
-        try:
-            email = kwargs['email']
-        except Exception:
-            raise InvalidRequestError("Invalid")
-        for obj in session.query(User):
-            if obj.email == email:
-                return obj
-            raise NoResultFound("Not found")
+        for key, value in kwargs.items():
+            if key not in User.__dict__:
+                raise InvalidRequestError("Invalid")
+            for obj in session.query(User):
+                if obj.email == value:
+                    return obj
+                else:
+                    raise NoResultFound("Not found")
+
+    def update_user(self, *args, **kwargs) -> None:
+        """
+        """
+        session = self._session
+        for key in kwargs.keys():
+            if key not in User.__dict__:
+                raise ValueError
+        user = self.find_user_by(kwargs)
+        setattr(user)
