@@ -48,14 +48,14 @@ class DB:
         """
         session = self._session
         for key, value in kwargs.items():
-            if key not in User.__dict__:
+            if not hasattr(User, key):
                 raise InvalidRequestError
             for obj in session.query(User):
                 if getattr(obj, key) == value:
                     return obj
         raise NoResultFound
 
-    def update_user(self, *args, **kwargs) -> None:
+    def update_user(self, idUser: int, **kwargs) -> None:
         """
         locate the user to update, then will update the user’s
         attributes as passed in the method’s arguments then commit
@@ -63,7 +63,7 @@ class DB:
         """
         session = self._session
         try:
-            user = self.find_user_by(id=args[0])
+            user = self.find_user_by(id=idUser)
         except NoResultFound:
             raise ValueError
         for key, value in kwargs.items():
