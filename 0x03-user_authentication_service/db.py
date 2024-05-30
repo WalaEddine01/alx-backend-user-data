@@ -63,14 +63,10 @@ class DB:
         changes to the database
         """
         session = self._session
-        try:
-            user = self.find_user_by(id=args)
-        except NoResultFound:
-            raise ValueError
+        user = self.find_user_by(id=args[0])
         for key, value in kwargs.items():
             if hasattr(user, key):
                 setattr(user, key, value)
             else:
-                print(hasattr(user, key), user, key)
                 raise ValueError
         self._session.commit()
