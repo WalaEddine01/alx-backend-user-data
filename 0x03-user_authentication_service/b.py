@@ -3,4 +3,4 @@ import bcrypt
 
 pas = b"wa"
 
-print(bcrypt.hashpw(pas, bcrypt.gensalt()))
+print(type("qqq".encode()))
