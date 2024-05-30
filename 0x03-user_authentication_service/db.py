@@ -62,8 +62,10 @@ class DB:
         attributes as passed in the method’s arguments then commit
         changes to the database
         """
-        session = self._session
-        user = self.find_user_by(id=args[0])
+        try:
+            user = self.find_user_by(args[0])
+        except NoResultFound:
+            raise ValueError()
         for key, value in kwargs.items():
             if hasattr(user, key):
                 setattr(user, key, value)
