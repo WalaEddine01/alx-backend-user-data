@@ -36,6 +36,8 @@ class Auth:
 
     def valid_login(self, email: str, password: str) -> bool:
         """
+        This method checks if the user can login
+        With his intred infos
         """
         Bpass = password.encode()
         try:
