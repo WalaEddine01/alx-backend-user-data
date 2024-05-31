@@ -56,7 +56,7 @@ class DB:
                     return obj
         raise NoResultFound
 
-    def update_user(self, idUser: int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         locate the user to update, then will update the user’s
         attributes as passed in the method’s arguments then commit
@@ -64,7 +64,7 @@ class DB:
         """
         session = self._session
         try:
-            user = self.find_user_by(id=idUser)
+            user = self.find_user_by(id=user_id)
         except NoResultFound:
             raise ValueError
         for key, value in kwargs.items():
