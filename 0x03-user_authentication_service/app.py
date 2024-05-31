@@ -21,11 +21,11 @@ def greet():
 
 
 @app.route("/users", methods=['POST'], strict_slashes=False)
-def register():
+def register() -> str:
     """
     function that implements the POST /users route
     """
-    data = request.get_json()
+    data = request.form
     if data:
         if 'email' not in data:
             abort(400, description="Missing email")
