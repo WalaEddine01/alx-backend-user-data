@@ -36,7 +36,7 @@ def register():
     try:
         AUTH.register_user(data["email"], data["password"])
     except ValueError:
-        return jsonify({"message": "email already registered"}), 400
+        return make_response(jsonify({"message": "email already registered"}), 400)
     return jsonify({"email": data["email"],
                     "message": "user created"}), 200
 
