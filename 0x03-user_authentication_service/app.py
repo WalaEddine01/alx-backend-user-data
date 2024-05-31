@@ -37,7 +37,7 @@ def register():
         AUTH.register_user(data["email"], data["password"])
     except ValueError:
         return abort(400, description="email already registered")
-    return jsonify({"email": data["email"], "message": "user created"})
+    return jsonify(200, {"email": data["email"], "message": "user created"})
 
 
 if __name__ == "__main__":
