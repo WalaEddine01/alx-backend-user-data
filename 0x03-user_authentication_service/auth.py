@@ -3,9 +3,11 @@
 This mdule for auth
 """
 from user import User
+from uuid import uuid4
 import bcrypt
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
+from flask import session
 
 
 def _hash_password(password: str) -> bytes:
@@ -47,3 +49,10 @@ class Auth:
             return False
         except NoResultFound:
             return False
+
+    def _generate_uuid(self, email: str, ) -> str:
+        """
+        The function should return a string representation
+        of a new UUID
+        """
+        return str(uuid4())
