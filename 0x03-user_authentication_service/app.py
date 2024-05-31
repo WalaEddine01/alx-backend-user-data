@@ -27,19 +27,17 @@ def register():
     """
     data = request.get_json()
     if data:
-        if 'email' not in request.get_json():
+        if 'email' not in data:
             abort(400, description="Missing email")
-        if 'password' not in request.get_json():
+        if 'password' not in data:
             abort(400, description="Missing password")
     else:
         abort(400, description="Not a JSON")
     try:
         AUTH.register_user(data["email"], data["password"])
     except ValueError:
-        return abort(400, description={"message": "email already registered"})
-    return jsonify({"email": "{}".format(data["email"]),
-                    "message": "user created"})
-
+        return abort(400, description="email already registered")
+    return jsonify({"email": data["email"], "message": "user created"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=True)
