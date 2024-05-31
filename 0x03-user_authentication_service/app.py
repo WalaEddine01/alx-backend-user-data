@@ -39,5 +39,6 @@ def register():
         return abort(400, description="email already registered")
     return jsonify({"email": data["email"], "message": "user created"})
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=True)
