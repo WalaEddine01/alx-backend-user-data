@@ -20,7 +20,7 @@ def greet():
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/users", methods=['post'], strict_slashes=False)
+@app.route("/users", methods=['POST'], strict_slashes=False)
 def register():
     """
     function that implements the POST /users route
@@ -34,12 +34,12 @@ def register():
     else:
         abort(400, description="Not a JSON")
     try:
-        user = AUTH.register_user(data["email"], data["password"])
+        AUTH.register_user(data["email"], data["password"])
     except ValueError:
-        return jsonify({"message": "email already registered"})
+        return abort(400, description={"message": "email already registered"})
     return jsonify({"email": "{}".format(data["email"]),
-                    "message": "{}".format(user)})
+                    "message": "user created"})
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)
