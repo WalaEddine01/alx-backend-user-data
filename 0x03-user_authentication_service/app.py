@@ -12,7 +12,7 @@ AUTH = Auth()
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def greet():
     """
     THis basic greeting method
@@ -20,10 +20,10 @@ def greet():
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/users")
-def users():
+@app.route("/users", methods=['post'], strict_slashes=False)
+def register():
     """
-    s
+    function that implements the POST /users route
     """
     data = request.get_json()
     if data:
@@ -39,7 +39,7 @@ def users():
         return jsonify({"message": "email already registered"})
     return jsonify({"email": "{}".format(data["email"]),
                     "message": "{}".format(user)})
-        
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
