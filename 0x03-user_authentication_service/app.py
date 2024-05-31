@@ -55,7 +55,7 @@ def login() -> str:
     try:
         AUTH.register_user(data["email"], data["password"])
     except ValueError:
-        
+        pass
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
