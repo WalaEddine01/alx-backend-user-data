@@ -4,7 +4,7 @@ This is the asic Flask app Module
 """
 from flask import (
     jsonify, Flask, request,
-    abort)
+    abort, make_response)
 from auth import Auth
 
 
@@ -37,7 +37,8 @@ def register():
         AUTH.register_user(data["email"], data["password"])
     except ValueError:
         return abort(400, description="email already registered")
-    return jsonify(200, {"email": data["email"], "message": "user created"})
+    return make_response(jsonify({"email": data["email"],
+                                  "message": "user created"}), 200)
 
 
 if __name__ == "__main__":
