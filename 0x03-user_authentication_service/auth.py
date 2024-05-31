@@ -10,6 +10,14 @@ from sqlalchemy.orm.exc import NoResultFound
 from flask import session
 
 
+def _generate_uuid() -> str:
+    """
+    The function should return a string representation
+    of a new UUID
+    """
+    return str(uuid4())
+
+
 def _hash_password(password: str) -> bytes:
     """
     takes in a password string arguments and returns bytes.
@@ -49,10 +57,3 @@ class Auth:
             return False
         except NoResultFound:
             return False
-
-    def _generate_uuid() -> str:
-        """
-        The function should return a string representation
-        of a new UUID
-        """
-        return str(uuid4())
