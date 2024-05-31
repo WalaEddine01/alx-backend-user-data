@@ -40,6 +40,22 @@ def register() -> str:
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
+def login() -> str:
+    """
+    """
+    data = request.form
+    if data:
+        if 'email' not in data:
+            abort(400, description="Missing email")
+        if 'password' not in data:
+            abort(400, description="Missing password")
+    else:
+        abort(400, description="Not a JSON")
+    try:
+        AUTH.register_user(data["email"], data["password"])
+    except ValueError:
+        
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
