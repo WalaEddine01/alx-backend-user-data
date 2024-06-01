@@ -2,6 +2,7 @@
 """
 This is the asic Flask app Module
 """
+from sqlalchemy.orm.exc import NoResultFound
 from flask import (
     jsonify, Flask, request,
     abort, make_response)
@@ -48,15 +49,22 @@ def login() -> str:
     data = request.form
     if data:
         if 'email' not in data:
-            abort(400, description="Missing email")
+            abort(401, description="Missing email")
         if 'password' not in data:
-            abort(400, description="Missing password")
+            abort(401)
     else:
-        abort(400, description="Not a JSON")
-    try:
-        AUTH.register_user(data["email"], data["password"])
-    except ValueError:
-        pass
+        abort(401)
+
+    valid = AUTH.valid_login(email=data["email"],
+                             password=data["password"])
+    if valid:
+        session_id = AUTH.create_session(data["email"])
+    else:
+        abort(401)
+    res = make_response(jsonify({"email": "{}".format(data["email"]),
+                                 "message": "logged in"}))
+    res.set_cookie('session_id', session_id)
+    return res
 
 
 if __name__ == "__main__":
