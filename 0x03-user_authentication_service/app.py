@@ -74,13 +74,10 @@ def logout():
     Handle user logout by destroying the session and redirecting
     to the home page.
     """
-    data = request.form
-    if 'session_id' not in data:
-        abort(403, description="Session ID missing.")
-    session_id = data['session_id']
+    session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
-    if not user:
-        abort(403, description="Invalid session ID.")
+    if not user or not session_id:
+        abort(403)
     AUTH.destroy_session(user_id=user.id)
     return redirect("/", code=302)
 
