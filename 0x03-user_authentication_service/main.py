@@ -1,23 +1,21 @@
 #!/usr/bin/env python3
+"""
+"""
+from auth import Auth
+from db import *
+EMAIL = "guillaume@holberton.io"
+PASSWD = "b4l0u"
+NEW_PASSWD = "t4rt1fl3tt3"
 
-from app import app, AUTH
 
-user = AUTH.register_user(
-    'test@test.com',
-    'test'
-)
+if __name__ == "__main__":
 
-reset_token = AUTH.get_reset_password_token(
-    'test@test.com'
-)
-
-AUTH.update_password(
-    reset_token,
-    'test'
-)
-
-if user.reset_token is not None:
-    print("Reset token not set to none after updating password. Password update did not work correctly.")
-    exit(0)
-
-print("OK", end='')
+    Auth.register_user(EMAIL, PASSWD)
+    Auth.log_in_wrong_password(EMAIL, NEW_PASSWD)
+    Auth.profile_unlogged()
+    session_id = Auth.log_in(EMAIL, PASSWD)
+    Auth.profile_logged(session_id)
+    Auth.log_out(session_id)
+    reset_token = Auth.reset_password_token(EMAIL)
+    Auth.update_password(EMAIL, reset_token, NEW_PASSWD)
+    Auth.log_in(EMAIL, NEW_PASSWD)
