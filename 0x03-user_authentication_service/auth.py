@@ -81,5 +81,5 @@ class Auth:
     def destroy_session(self, user_id: int) -> None:
         '''
         '''
-        self._db.update_user(session_id=None)
+        self._db.update_user(user_id=user_id, session_id=None)
         return None
