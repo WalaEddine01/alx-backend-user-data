@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
-from auth import Auth
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
+from app import app, AUTH
 
-wa = auth.register_user(email, password)
+user = AUTH.register_user(
+    'test@test.com',
+    'test'
+)
 
-print(auth.create_session(email))
-print(wa.session_id)
-print(auth.create_session("unknown@email.com"))
+reset_token = AUTH.get_reset_password_token(
+    'test@test.com'
+)
+
+AUTH.update_password(
+    reset_token,
+    'test'
+)
+
+if user.reset_token is not None:
+    print("Reset token not set to none after updating password. Password update did not work correctly.")
+    exit(0)
+
+print("OK", end='')
