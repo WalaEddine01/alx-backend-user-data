@@ -5,7 +5,8 @@ This is the asic Flask app Module
 from sqlalchemy.orm.exc import NoResultFound
 from flask import (
     jsonify, Flask, request,
-    abort, make_response)
+    abort, make_response, redirect
+    )
 from auth import Auth
 
 
@@ -65,6 +66,20 @@ def login() -> str:
                                  "message": "logged in"}))
     res.set_cookie('session_id', session_id)
     return res
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout():
+    '''
+    '''
+    data = request.form
+    if not data:
+        abort(401)
+    user = AUTH.get_user_from_session_id(data['session_id'])
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user_id=user.id)
+    redirect("/")
 
 
 if __name__ == "__main__":
