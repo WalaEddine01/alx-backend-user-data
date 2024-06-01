@@ -89,7 +89,7 @@ def profile():
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if user:
-        return jsonify({"email": f'{user.email}'}, )
+        return jsonify({"email": f'{user.email}'}, 200)
     abort(403)
 
 
