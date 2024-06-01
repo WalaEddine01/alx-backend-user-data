@@ -70,16 +70,19 @@ def login() -> str:
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
-    '''
-    '''
+    """
+    Handle user logout by destroying the session and redirecting
+    to the home page.
+    """
     data = request.form
-    if not data:
-        abort(403)
-    user = AUTH.get_user_from_session_id(data['session_id'])
+    if 'session_id' not in data:
+        abort(403, description="Session ID missing.")
+    session_id = data['session_id']
+    user = AUTH.get_user_from_session_id(session_id)
     if not user:
-        abort(403)
+        abort(403, description="Invalid session ID.")
     AUTH.destroy_session(user_id=user.id)
-    return redirect("/", 302)
+    return redirect("/", code=302)
 
 
 if __name__ == "__main__":
