@@ -74,7 +74,7 @@ def logout():
     '''
     data = request.form
     if not data:
-        abort(401)
+        abort(403)
     user = AUTH.get_user_from_session_id(data['session_id'])
     if not user:
         abort(403)
